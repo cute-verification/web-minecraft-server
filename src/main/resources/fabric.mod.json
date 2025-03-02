@@ -3,15 +3,15 @@
 	"id": "cute-verification-server",
 	"version": "${version}",
 	"name": "cute-verification-server",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "The minecraft server side version of cute-verification, can communicate with cute-verification server",
 	"authors": [
-		"Me!"
+		"gdrfgdrf"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/cute-verification/",
+		"sources": "https://github.com/cute-verification"
 	},
-	"license": "CC0-1.0",
+	"license": "Apache License 2.0",
 	"icon": "assets/cute-verification-server/icon.png",
 	"environment": "server",
 	"entrypoints": {
@@ -26,12 +26,8 @@
 		"cute-verification-server.mixins.json"
 	],
 	"depends": {
-		"minecraft": "~1.14.4",
 		"java": ">=8",
 		"fabric": "*",
 		"fabric-language-kotlin": "*"
 	},
-	"suggests": {
-		"another-mod": "*"
-	}
 }
