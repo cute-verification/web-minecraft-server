@@ -1,5 +1,6 @@
 package io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric
 
+import io.github.gdrfgdrf.cuteverification.web.mediator.enums.IdentificationPlatforms
 import io.github.gdrfgdrf.cuteverification.web.mediator.event.listener.UserJoinEventListener
 import io.github.gdrfgdrf.cuteverification.web.mediator.event.listener.UserLoginSuccessEventListener
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.Compatible
@@ -10,7 +11,6 @@ import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.event
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.listener.UserTimeoutEventListener
 import net.fabricmc.api.DedicatedServerModInitializer
 import net.fabricmc.api.EnvType
-import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.server.MinecraftServer
@@ -31,6 +31,7 @@ object ServerMain : DedicatedServerModInitializer {
 			override fun findUser(
 				username: String,
 				code: String,
+				platform: IdentificationPlatforms,
 				ip: String
 			): IExtendedUser? {
 				if (this@ServerMain.serverInstance == null) {
@@ -39,7 +40,7 @@ object ServerMain : DedicatedServerModInitializer {
 				val playerManager = this@ServerMain.serverInstance!!.playerManager
 				val serverPlayerEntity = playerManager.getPlayer(username) ?: return null
 
-				return ExtendedUser.make(serverPlayerEntity, code)
+				return ExtendedUser.make(serverPlayerEntity, code, platform)
 			}
 		})
 

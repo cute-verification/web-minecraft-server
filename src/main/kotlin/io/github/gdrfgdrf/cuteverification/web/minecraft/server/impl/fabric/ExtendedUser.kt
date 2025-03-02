@@ -1,5 +1,6 @@
 package io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric
 
+import io.github.gdrfgdrf.cuteverification.web.mediator.enums.IdentificationPlatforms
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.IExtendedUser
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.enums.KickReasons
 import net.minecraft.server.network.ServerPlayerEntity
@@ -9,6 +10,7 @@ class ExtendedUser(
     override var id: String?,
     override var username: String,
     override var code: String,
+    override var platform: IdentificationPlatforms,
     override var ip: String,
     val player: ServerPlayerEntity
 ) : IExtendedUser {
@@ -18,11 +20,12 @@ class ExtendedUser(
     }
 
     companion object {
-        fun make(serverPlayerEntity: ServerPlayerEntity, code: String): ExtendedUser {
+        fun make(serverPlayerEntity: ServerPlayerEntity, code: String, platform: IdentificationPlatforms): ExtendedUser {
             return ExtendedUser(
                 null,
                 serverPlayerEntity.name.string,
                 code,
+                platform,
                 serverPlayerEntity.networkHandler.connection.address.toString(),
                 serverPlayerEntity
             )

@@ -1,6 +1,7 @@
 package io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric
 
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.events.UserJoin
+import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.bean.IdentificationDTO
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.server.MinecraftServer
@@ -11,11 +12,19 @@ import net.minecraft.util.PacketByteBuf
 
 object NetworkingIdentifiers {
     val identification = RegistrationPacket("identification") { _, serverPlayerEntity, _, byteBuf, _ ->
-        val username = serverPlayerEntity.name.string
-        val code = byteBuf.readString()
-        val ip = serverPlayerEntity.networkHandler.connection.address.toString()
+        runCatching {
+            val identificationDto = IdentificationDTO.read(byteBuf)
 
-        UserJoin.call(username, code, ip)
+            val username = serverPlayerEntity.name.string
+            val code = identificationDto.code!!
+            val platform = identificationDto.platform!!
+            val ip = serverPlayerEntity.networkHandler.connection.address.toString()
+
+            UserJoin.call(username, code, platform, ip)
+        }.onFailure {
+            ServerMain.logger.error("An error occurred when processing identification packet, kicking the player")
+            serverPlayerEntity.kick()
+        }
     }
 
     fun registerAll() {
