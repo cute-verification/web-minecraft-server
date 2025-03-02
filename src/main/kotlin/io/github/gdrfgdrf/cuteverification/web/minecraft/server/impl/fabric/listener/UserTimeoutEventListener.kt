@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe
 import io.github.gdrfgdrf.cuteverification.web.mediator.event.bus.EventCenter
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.events.UserTimeoutEvent
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.ServerMain
+import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.kick
 import net.minecraft.text.LiteralText
 
 object UserTimeoutEventListener {
@@ -17,6 +18,6 @@ object UserTimeoutEventListener {
         val playerManager = ServerMain.serverInstance!!.playerManager
         val serverPlayerEntity = playerManager.getPlayer(username) ?: return
 
-        serverPlayerEntity.networkHandler.connection.disconnect(LiteralText(""))
+        serverPlayerEntity.kick()
     }
 }

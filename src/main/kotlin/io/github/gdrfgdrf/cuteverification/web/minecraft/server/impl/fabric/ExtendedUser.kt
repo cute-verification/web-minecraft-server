@@ -14,7 +14,7 @@ class ExtendedUser(
 ) : IExtendedUser {
     override fun kick(reason: KickReasons) {
         ServerMain.logger.info("Kick player ${player.name.string}, reason: $reason")
-        player.networkHandler?.disconnect(LiteralText(""))
+        player.kick()
     }
 
     companion object {
