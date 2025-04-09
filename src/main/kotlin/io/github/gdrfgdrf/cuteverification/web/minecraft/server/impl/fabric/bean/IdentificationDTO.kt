@@ -1,20 +1,19 @@
 package io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.bean
 
 import io.github.gdrfgdrf.cuteverification.web.mediator.enums.IdentificationPlatforms
-import net.minecraft.util.PacketByteBuf
+import io.netty.buffer.ByteBuf
+import java.nio.charset.StandardCharsets
 
 class IdentificationDTO {
     var code: String? = null
-    var platform: IdentificationPlatforms? = null
 
     companion object {
-        fun read(byteBuf: PacketByteBuf): IdentificationDTO {
-            val code = byteBuf.readString()
-            val platform = byteBuf.readEnumConstant(IdentificationPlatforms::class.java)
+        fun read(byteBuf: ByteBuf): IdentificationDTO {
+            val length = byteBuf.readInt()
+            val encrypted_code = byteBuf.readCharSequence(length, StandardCharsets.UTF_8)
 
             val result = IdentificationDTO()
-            result.code = code
-            result.platform = platform
+            result.code = encrypted_code as String
 
             return result
         }

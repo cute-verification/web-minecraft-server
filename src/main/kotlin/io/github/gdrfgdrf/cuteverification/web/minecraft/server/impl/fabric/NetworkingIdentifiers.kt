@@ -17,10 +17,10 @@ object NetworkingIdentifiers {
 
             val username = serverPlayerEntity.name.string
             val code = identificationDto.code!!
-            val platform = identificationDto.platform!!
+//            val platform = identificationDto.platform!!
             val ip = serverPlayerEntity.networkHandler.connection.address.toString()
 
-            UserJoin.call(username, code, platform, ip)
+//            UserJoin.call(username, code, platform, ip)
         }.onFailure {
             ServerMain.logger.error("An error occurred when processing identification packet, kicking the player")
             serverPlayerEntity.kick()

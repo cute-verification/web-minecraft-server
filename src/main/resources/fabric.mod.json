@@ -30,4 +30,5 @@
 		"fabric": "*",
 		"fabric-language-kotlin": "*"
 	},
+    "accessWidener": "cute-verification-server.accesswidener"
 }

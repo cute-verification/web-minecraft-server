@@ -3,7 +3,8 @@
 	"package": "io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-	    "PlayerManagerMixin"
+	    "PlayerManagerMixin",
+	    "DecoderHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

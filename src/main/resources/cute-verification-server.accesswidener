@@ -1,0 +1,4 @@
+accessWidener v2 named
+
+accessible field net/minecraft/server/network/ServerLoginNetworkHandler clientEntity Lnet/minecraft/server/network/ServerPlayerEntity;
+accessible field net/minecraft/server/network/ServerLoginNetworkHandler secretKey Ljavax/crypto/SecretKey;
