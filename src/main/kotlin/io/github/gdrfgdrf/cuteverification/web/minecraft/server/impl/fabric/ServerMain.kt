@@ -48,7 +48,6 @@ object ServerMain : DedicatedServerModInitializer {
 			this.serverInstance = it
 		}
 
-		NetworkingIdentifiers.registerAll()
 		UserTimeoutEventListener.register()
 		UserJoinEventListener
 		UserLoginSuccessEventListener

@@ -3,15 +3,11 @@ package io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.gdrfgdrf.cuteverification.web.mediator.enums.IdentificationPlatforms;
 import io.github.gdrfgdrf.cuteverification.web.minecraft.server.compatible.events.UserJoin;
-import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.ServerMain;
-import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.bean.IdentificationDTO;
-import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.utils.AesUtils;
+import io.github.gdrfgdrf.cuteverification.web.minecraft.server.impl.fabric.utils.Encryption;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import kotlin.text.Charsets;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.DecoderHandler;
-import net.minecraft.server.network.ServerLoginNetworkHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,9 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,7 +50,7 @@ public class DecoderHandlerMixin {
         byte[] publicKey = "test_key_1234567".getBytes(StandardCharsets.UTF_8);
 
         // 不能将 bytes 转成 String 再使用 split，会破坏原 bytes 数组
-        List<byte[]> split = AesUtils.INSTANCE.splitByteArray(bytes, (byte) ',');
+        List<byte[]> split = Encryption.INSTANCE.splitByteArray(bytes, (byte) ',');
         if (split.size() != 2) {
             return;
         }
@@ -64,8 +58,8 @@ public class DecoderHandlerMixin {
         byte[] encryptedCodeBytes = split.get(0);
         byte[] encryptedPlatformBytes = split.get(1);
 
-        String code = new String(AesUtils.INSTANCE.decrypt(encryptedCodeBytes, publicKey, publicKey), StandardCharsets.UTF_8);
-        String platform = new String(AesUtils.INSTANCE.decrypt(encryptedPlatformBytes, publicKey, publicKey), StandardCharsets.UTF_8);
+        String code = new String(Encryption.INSTANCE.decrypt(encryptedCodeBytes, publicKey, publicKey), StandardCharsets.UTF_8);
+        String platform = new String(Encryption.INSTANCE.decrypt(encryptedPlatformBytes, publicKey, publicKey), StandardCharsets.UTF_8);
         String username = entity.getName().getString();
         String ip = clientConnection.getAddress().toString();
 
